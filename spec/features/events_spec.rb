@@ -46,18 +46,18 @@ RSpec.describe '/events', type: :feature do
       it { should_not have_link('Edit', edit_event_path(event)) }
       it { should_not have_link('Destroy', event_path(event)) }
       it { should_not have_link('Absent', absent_event_path(event)) }
-      it { should_not have_link('Atend', atend_event_path(event)) }
+      it { should_not have_link('Attend', attend_event_path(event)) }
 
-      describe 'atendee' do
-        let!(:atended) { create_list :atendee, 2, event: event }
-        let!(:absented) { create_list :atendee, 2, event: event, status: 'absented' }
+      describe 'attendee' do
+        let!(:attended) { create_list :attendee, 2, event: event }
+        let!(:absented) { create_list :attendee, 2, event: event, status: 'absented' }
 
         before do
           visit event_path event
         end
 
-        it { should have_content atended.first.user.name }
-        it { should have_content atended.last.user.name }
+        it { should have_content attended.first.user.name }
+        it { should have_content attended.last.user.name }
         it { should have_content absented.first.user.name }
         it { should have_content absented.last.user.name }
       end
@@ -91,13 +91,13 @@ RSpec.describe '/events', type: :feature do
         end
       end
 
-      describe 'atendee' do
+      describe 'attendee' do
         context 'not attend' do
-          it { should have_link('Atend', atend_event_path(event)) }
+          it { should have_link('attend', attend_event_path(event)) }
 
           context 'click Attend' do
             before do
-              click_link('Atend')
+              click_link('attend')
             end
 
             it { current_path.should eq event_path(event) }
@@ -115,7 +115,7 @@ RSpec.describe '/events', type: :feature do
 
               context 'click Attend again' do
                 before do
-                  click_link('Atend')
+                  click_link('attend')
                 end
 
                 it { current_path.should eq event_path(event) }
@@ -127,7 +127,7 @@ RSpec.describe '/events', type: :feature do
         end
 
         context 'already attended' do
-          let!(:atended) { create :atendee, event: event, user: event.user }
+          let!(:attended) { create :attendee, event: event, user: event.user }
 
           before do
             visit event_path event

@@ -8,6 +8,7 @@ RSpec.describe '/auth', type: :feature do
 
     context 'success' do
       before do
+        OmniAuth.config.test_mode = true
         OmniAuth.config.mock_auth[:twitter] =
           OmniAuth::AuthHash.new({
                                    provider: 'twitter',
@@ -24,7 +25,7 @@ RSpec.describe '/auth', type: :feature do
                                    }
                                  })
         visit user_path id: user.id
-        click_link 'log-in with Twitter'
+        click_link 'Log in with Twitter'
       end
 
       it { current_path.should eq events_path }
@@ -36,7 +37,7 @@ RSpec.describe '/auth', type: :feature do
       before do
         OmniAuth.config.mock_auth[:twitter] = :invalid_credentials
         visit user_path id: user.id
-        click_link 'log-in with Twitter'
+        click_link 'Log in with Twitter'
       end
 
       it { current_path.should eq events_path }
@@ -53,8 +54,8 @@ RSpec.describe '/auth', type: :feature do
       end
 
       it { current_path.should eq user_path id: user.id }
-      it { should have_content 'log-in with Twitter' }
-      it { should_not have_content 'log-out' }
+      it { should have_content 'Log in with Twitter' }
+      it { should_not have_content 'Log out' }
     end
 
     context 'logged-in' do
@@ -66,17 +67,17 @@ RSpec.describe '/auth', type: :feature do
       end
 
       it { current_path.should eq user_path id: user.id }
-      it { should have_content 'log-out' }
-      it { should_not have_content 'log-in with Twitter' }
+      it { should have_content 'Log out' }
+      it { should_not have_content 'Log in with Twitter' }
 
-      context 'exec log-out' do
+      context 'exec Log out' do
         before do
-          click_link 'log-out'
+          click_link 'Log out'
         end
 
         it { current_path.should eq events_path }
-        it { should have_content 'log-in with Twitter' }
-        it { should_not have_content 'log-out' }
+        it { should have_content 'Log in with Twitter' }
+        it { should_not have_content 'Log out' }
       end
     end
   end

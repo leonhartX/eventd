@@ -1,9 +1,8 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable,
-         :omniauthable, omniauth_providers: [:twitter]
+  devise :database_authenticatable, :registerable, :trackable, :timeoutable,
+    :omniauthable, omniauth_providers: [:twitter]
 
   def password_required?
     super && provider.blank?
@@ -20,15 +19,16 @@ class User < ApplicationRecord
         user.uid = auth[:uid]
         user.name = auth[:info][:name]
         user.nickname = auth[:info][:nickname]
+        user.description = auth[:info][:description]
+        user.image = auth[:info][:image]
       end
     end
 
     def new_with_session(params, session)
+      binding.pry
       if session["devise.user_attributes"]
-        debugger
         new(session["devise.user_attributes"]) do |user|
           user.attributes = params
-          debugger
           user.valid?
         end
       else
