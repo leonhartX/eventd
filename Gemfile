@@ -36,15 +36,16 @@ gem 'bootstrap-will_paginate', '~>0.0.10'
 gem 'bootstrap-sass'
 gem 'rails-controller-testing'
 gem 'devise', '4.0.0.rc2'
-# gem 'omniauth'
+gem 'omniauth'
 gem 'omniauth-twitter'
+gem 'omniauth-facebook'
+gem 'capybara'
 
 gem 'momentjs-rails', '>= 2.9.0'
 gem 'bootstrap3-datetimepicker-rails', '~> 4.17.37'
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  # gem 'byebug'
+  gem "factory_girl_rails", "~> 4.0"
   gem 'rspec-rails', '~> 3.0'
   gem 'pry-rails'
   gem 'pry-doc'
