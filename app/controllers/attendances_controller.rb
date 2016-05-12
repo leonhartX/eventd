@@ -4,7 +4,7 @@ class AttendancesController < ApplicationController
   def create
     @event = Event.find_by(id: params[:event_id])
     if Attendance.find_by(user_id: current_user.id, event_id: params[:event_id])
-      flash[:success] = "Already attended."
+      flash[:success] = "Already involved."
     elsif @event
       current_user.attend @event
       flash[:success] = "Attned to #{@event.title}!"
@@ -18,9 +18,10 @@ class AttendancesController < ApplicationController
   	# binding.pry
     @event = Event.find_by(id: params[:event_id])
     if !Attendance.find_by(user_id: current_user.id, event_id: params[:event_id])
+      flash[:danger] = "Not involved yet!"
     elsif @event
       current_user.update_attend @event, params[:state]
-      flash[:success] = "Attned to #{@event.title}!"
+      flash[:success] = "State updated."
     else
       flash[:danger] = "Event not existed!"
     end

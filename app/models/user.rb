@@ -10,11 +10,13 @@ class User < ApplicationRecord
   end
 
   def attend event
-    attendances.create(event_id: event.id, state: 1)
+    state = event.over? ? "waiting" : "attended"
+    attendances.create(event_id: event.id, state: state)
   end
 
   def update_attend event, state
-    attendances.find_by(user_id: id, event_id: event.id).update_attribute :state, state  
+    state = "waiting" if state == "attended" && event.over?
+    attendances.find_by(user_id: id, event_id: event.id).update_attribute :state, state
   end
 
   class << self

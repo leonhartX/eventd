@@ -1,0 +1,9 @@
+<%= form_for @attendance, method: :put, remote: true, html: { class: "form-inline" } do |f| %>
+  <div class="form-group">
+    <div class="input-group">
+      <%= hidden_field_tag :event_id, @event.id %>
+      <%= hidden_field_tag :state, @attendance.attending? ? "absented" : "attended" %>
+    </div>
+    <%= f.button @attendance.attending? ? "Absent" : "Attend", class: "btn btn-primary" %>
+  </div>
+<% end %>
