@@ -1,11 +1,12 @@
 class EventsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :edit, :update, :destroy]
   before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action :correct_user, only: [:update, :destroy]
 
   # GET /events
   # GET /events.json
   def index
-    @events = Event.all
+    @events = Event.paginate(page: params[:page])
   end
 
   # GET /events/1
@@ -25,8 +26,7 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
-    @event = Event.new(event_params)
-
+    @event = current_user.events.build event_params
     respond_to do |format|
       if @event.save
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
@@ -63,13 +63,18 @@ class EventsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_event
-      @event = Event.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_event
+    @event = Event.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def event_params
-      params.fetch(:event, {})
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def event_params
+    params.require(:event).permit(:title, :hold_at, :capacity, :location, :owner, :description)
+  end
+
+  def correct_user
+    event = current_user.events.find_by(id: params[:id])
+    redirect_to root_path if event.nil?
+  end
 end

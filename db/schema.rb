@@ -11,17 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160511134502) do
+ActiveRecord::Schema.define(version: 20160512054321) do
 
   create_table "events", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "title"
-    t.datetime "hold_at"
-    t.integer  "capacity"
-    t.string   "location"
-    t.string   "owner"
+    t.string   "title",       null: false
+    t.datetime "hold_at",     null: false
+    t.integer  "capacity",    null: false
+    t.string   "location",    null: false
+    t.string   "owner",       null: false
     t.string   "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.integer  "user_id"
+    t.index ["user_id"], name: "index_events_on_user_id", using: :btree
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -45,4 +47,5 @@ ActiveRecord::Schema.define(version: 20160511134502) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
   end
 
+  add_foreign_key "events", "users"
 end

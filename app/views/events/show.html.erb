@@ -1,4 +1,11 @@
-<p id="notice"><%= notice %></p>
+<%= render @event %>
+<% if user_signed_in? %>
+  <% if @event.user_id == current_user.id  %>
+    <%= link_to 'Edit', edit_event_path(@event) %> |
+    <%= link_to "Destroy", @event, remote: true, method: :delete, data: { confirm: "You sure?" } %> |
+  <% end %>
+  <%= link_to 'Attend', "#" %> |
+  <%= link_to 'Absent', "#" %> |
+<% end %>
 
-<%= link_to 'Edit', edit_event_path(@event) %> |
 <%= link_to 'Back', events_path %>

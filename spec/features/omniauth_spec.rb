@@ -8,7 +8,6 @@ RSpec.describe '/auth', type: :feature do
 
     context 'success' do
       before do
-        OmniAuth.config.test_mode = true
         OmniAuth.config.mock_auth[:twitter] =
           OmniAuth::AuthHash.new({
                                    provider: 'twitter',

@@ -6,5 +6,6 @@ FactoryGirl.define do
     location "MyString"
     owner "MyString"
     description "MyString"
+    user
   end
 end

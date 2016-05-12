@@ -1,7 +1,6 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable, :trackable, :timeoutable,
+  has_many :events, dependent: :destroy
+  devise :database_authenticatable, :trackable, :timeoutable,
     :omniauthable, omniauth_providers: [:twitter]
 
   def password_required?
@@ -25,7 +24,6 @@ class User < ApplicationRecord
     end
 
     def new_with_session(params, session)
-      binding.pry
       if session["devise.user_attributes"]
         new(session["devise.user_attributes"]) do |user|
           user.attributes = params

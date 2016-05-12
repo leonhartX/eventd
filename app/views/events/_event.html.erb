@@ -1,0 +1,14 @@
+<div class="bg-info">
+  <h2><%= link_to event.title, event_path(event.id) %></h2>
+  <h2><%= link_to "Show", event_path(event.id) %></h2>
+  
+  <span class="hold_at"><%= event.hold_at %></span>
+  <span class="capacity"><%= event.capacity %></span>
+  <span class="location"><%= event.location %></span>
+  <span class="owner"><%= event.owner %></span>
+  <span class="description"><%= event.description %></span>
+
+  <span class="timestamp">
+    Created <%= time_ago_in_words(event.updated_at) %> ago.
+  </span>
+</div>

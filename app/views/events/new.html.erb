@@ -1,5 +1,8 @@
 <h1>New Event</h1>
 
-<%= render 'form', event: @event %>
-
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= render 'form', event: @event%>
+  </div>
+</div>
 <%= link_to 'Back', events_path %>

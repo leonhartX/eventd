@@ -1,15 +1,23 @@
 <%= form_for(event) do |f| %>
-  <% if event.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</h2>
+  <%= render 'shared/error_messages', object: f.object %>
+  
+  <%= f.label :title %>
+  <%= f.text_field :title, class: 'form-control' %>
 
-      <ul>
-      <% event.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= f.label :location %>
+  <%= f.text_field :location, class: 'form-control' %>
+
+  <%= f.label :hold_at %>
+  <%= f.text_field :hold_at, data: { :date_format => 'YYYY/MM/DD hh:mm' }, class: "form-control date-picker" %>
+
+  <%= f.label :capacity %>
+  <%= f.text_field :capacity, class: 'form-control' %>
+
+  <%= f.label :owner %>
+  <%= f.text_field :owner, class: 'form-control' %>
+
+  <%= f.label :description %>
+  <%= f.text_field :description, class: 'form-control' %>
 
   <div class="actions">
     <%= f.submit %>
