@@ -85,4 +85,5 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
   config.session_store :redis_store, servers: ENV['ELASTIC_CACHE_ENDPOINT']
+  config.eager_load_paths += %W( #{config.root}/lib )
 end

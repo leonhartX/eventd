@@ -12,7 +12,7 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
-    if current_user
+    if current_user.id
       @attendance = @event.attendances.find_by(user_id: current_user.id)
       @attendance = current_user.attendances.build unless @attendance
     end
