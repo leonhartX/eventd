@@ -104,9 +104,9 @@ RSpec.describe '/events', type: :feature do
             it { find('#attendance').should have_content event.user.name }
             it { find('#absence').should_not have_content event.user.name }
 
-            context 'click Absent' do
+            context 'click absent' do
               before do
-                click_link('Absent')
+                click_link('absent')
               end
 
               it { current_path.should eq event_path(event) }
@@ -133,7 +133,7 @@ RSpec.describe '/events', type: :feature do
             visit event_path event
           end
 
-          it { should have_link('Absent', absent_event_path(event)) }
+          it { should have_link('absent', absent_event_path(event)) }
         end
       end
     end

@@ -1,5 +1,7 @@
 class User < ApplicationRecord
   has_many :events, dependent: :destroy
+  has_many :attendances, dependent: :destroy
+  has_many :involvements, through: :attendances, source: :event
   devise :database_authenticatable, :trackable, :timeoutable,
     :omniauthable, omniauth_providers: [:twitter]
 
@@ -7,8 +9,12 @@ class User < ApplicationRecord
     super && provider.blank?
   end
 
-  def email_required?
-    super && provider.blank?
+  def attend event
+    attendances.create(event_id: event.id, state: 1)
+  end
+
+  def update_attend event, state
+    attendances.find_by(user_id: id, event_id: event.id).update_attribute :state, state  
   end
 
   class << self
