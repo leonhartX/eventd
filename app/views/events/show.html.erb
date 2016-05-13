@@ -4,5 +4,5 @@
   <%= link_to "Destroy", @event, remote: true, method: :delete, data: { confirm: "You sure?" } %> |
 <% end %>
 <%= render "attendances/#{action_type @attendance}" %>
-<%= render "users/participate" %>
+<%= render "participate" %>
 <%= link_to 'Back', events_path %>

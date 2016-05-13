@@ -15,4 +15,10 @@ class Event < ApplicationRecord
   def over?
   	attendees.count >= capacity
   end
+
+  class << self
+  	def participate_type
+  		['attendees', 'waiters', 'absentees']
+  	end
+  end
 end

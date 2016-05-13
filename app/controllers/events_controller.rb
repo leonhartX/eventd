@@ -54,6 +54,14 @@ class EventsController < ApplicationController
     end
   end
 
+  def search
+    @events = []
+    if request.post? then
+      query = params[:search]
+      @events = Event.where("title like '%" + query + "%'")
+    end
+  end
+
   private
     def set_event
       @event = Event.find(params[:id])

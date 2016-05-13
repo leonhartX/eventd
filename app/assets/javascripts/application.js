@@ -18,8 +18,8 @@
 //= require bootstrap-datetimepicker
 //= require_tree .
 
-$(function() {
-	var data = { 'data-format': 'yyyy-MM-dd hh:mm' };
+document.addEventListener("turbolinks:load", function() {
+  var data = { 'data-format': 'yyyy-MM-dd hh:mm' };
 	$('.date-picker').attr(data);
 	$('.date-picker').datetimepicker();
-});
+})

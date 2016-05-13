@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   get 'users/show'
   get 'users/index'
   get 'pages/home'
+  post 'search' => 'events#search'
 
   devise_for :users, controllers: { :omniauth_callbacks => "oauth_callbacks" }
   root 'events#index'

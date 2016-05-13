@@ -1,4 +1,4 @@
-<% ["attendees", "absentees", "waiters"].each do |status|  -%>
+<% Event.participate_type.each do |status|  -%>
 	<div id=<%=status%> >
 	  <h2><%=status%></h2>
 	  <%= render @event.send status %>
