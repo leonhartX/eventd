@@ -1,12 +1,6 @@
-<div id="attendees">
-  <h2>Attnedees</h2>
-  <%= render @event.attendees %>	
-</div>
-<div id="absentees">
-  <h2>Absentees</h2>
-  <%= render @event.absentees %>	
-</div>
-<div id="waiters">
-  <h2>Waiters</h2>
-  <%= render @event.waiters %>	
-</div>
+<% ["attendees", "absentees", "waiters"].each do |status|  -%>
+	<div id=<%=status%> >
+	  <h2><%=status%></h2>
+	  <%= render @event.send status %>
+	</div>
+ <% end -%>

@@ -15,7 +15,6 @@ class AttendancesController < ApplicationController
   end
 
   def update
-  	# binding.pry
     @event = Event.find_by(id: params[:event_id])
     if !Attendance.find_by(user_id: current_user.id, event_id: params[:event_id])
       flash[:danger] = "Not involved yet!"

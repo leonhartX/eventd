@@ -3,11 +3,11 @@ class Guest
     nil
   end
 
-  def name
-  	'guest'
+  def provider
+  	nil
   end
 
-  def provider
-  	'none'
+  def name
+  	'guest'
   end
 end

@@ -1,6 +1,12 @@
 class User < ApplicationRecord
   has_many :events, dependent: :destroy
   has_many :attendances, dependent: :destroy
+  has_many :attended, -> { where state: "attended" }, class_name: 'Attendance'
+  has_many :waiting, -> { where state: "waiting" }, class_name: 'Attendance'
+  has_many :absented, -> { where state: "absented" }, class_name: 'Attendance'
+  has_many :attended_events, through: :attended, source: :event
+  has_many :waiting_events, through: :waiting, source: :event
+  has_many :absented_events, through: :absented, source: :event
   has_many :involvements, through: :attendances, source: :event
   devise :database_authenticatable, :trackable, :timeoutable,
     :omniauthable, omniauth_providers: [:twitter]

@@ -1,6 +1,6 @@
 <li id="users">
   <%= image_tag user.image, alt:user.name %>
-  <%= user.name %>
+  <%= link_to user.name, user %>
   <%= user.nickname %>
   <%= user.description %>
 </li>
