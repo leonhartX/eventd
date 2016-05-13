@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :waiting_events, through: :waiting, source: :event
   has_many :absented_events, through: :absented, source: :event
   has_many :involvements, through: :attendances, source: :event
+  validates :provider, :uid, presence: true
   devise :database_authenticatable, :trackable, :timeoutable,
     :omniauthable, omniauth_providers: [:twitter]
 
@@ -21,8 +22,14 @@ class User < ApplicationRecord
   end
 
   def update_attend event, state
+    raise "state not support!" if 
     state = "waiting" if state == "attended" && event.over?
-    attendances.find_by(user_id: id, event_id: event.id).update_attribute :state, state
+    attendance = attendances.find_by(event_id: event.id)
+    attendance.update_attribute :state, state
+
+    if state == "absented" && event.waiters.count > 0
+      event.waiters.order(:updated_at).first.update_attend event, "attended"
+    end
   end
 
   class << self
