@@ -35,8 +35,8 @@ RSpec.describe '/events', type: :feature do
     it { should have_content event.location }
     it { should have_content event.owner }
     it { should have_content event.description }
-    it { should have_css '#attendance' } #出席者リストのID
-    it { should have_css '#absence' } #欠席者リストのID
+    it { should have_css '#attendees' } #出席者リストのID
+    it { should have_css '#absentees' } #欠席者リストのID
 
     context 'not logged-in' do
       before do
@@ -45,12 +45,12 @@ RSpec.describe '/events', type: :feature do
 
       it { should_not have_link('Edit', edit_event_path(event)) }
       it { should_not have_link('Destroy', event_path(event)) }
-      it { should_not have_link('Absent', absent_event_path(event)) }
-      it { should_not have_link('Attend', attend_event_path(event)) }
+      it { should_not have_button('Absent') }
+      it { should_not have_button('Attend') }
 
       describe 'attendee' do
-        let!(:attended) { create_list :attendee, 2, event: event }
-        let!(:absented) { create_list :attendee, 2, event: event, status: 'absented' }
+        let!(:attended) { create_list :attendance, 2, event: event }
+        let!(:absented) { create_list :attendance, 2, event: event, state: 'absented' }
 
         before do
           visit event_path event
@@ -93,47 +93,47 @@ RSpec.describe '/events', type: :feature do
 
       describe 'attendee' do
         context 'not attend' do
-          it { should have_link('attend', attend_event_path(event)) }
+          it { should have_button('Attend') }
 
           context 'click Attend' do
             before do
-              click_link('attend')
+              click_button('Attend')
             end
 
             it { current_path.should eq event_path(event) }
-            it { find('#attendance').should have_content event.user.name }
-            it { find('#absence').should_not have_content event.user.name }
+            it { find('#attendees').should have_content event.user.name }
+            it { find('#absentees').should_not have_content event.user.name }
 
             context 'click absent' do
               before do
-                click_link('absent')
+                click_button('Absent')
               end
 
               it { current_path.should eq event_path(event) }
-              it { find('#attendance').should_not have_content event.user.name }
-              it { find('#absence').should have_content event.user.name }
+              it { find('#attendees').should_not have_content event.user.name }
+              it { find('#absentees').should have_content event.user.name }
 
               context 'click Attend again' do
                 before do
-                  click_link('attend')
+                  click_button('Attend')
                 end
 
                 it { current_path.should eq event_path(event) }
-                it { find('#attendance').should have_content event.user.name }
-                it { find('#absence').should_not have_content event.user.name }
+                it { find('#attendees').should have_content event.user.name }
+                it { find('#absentees').should_not have_content event.user.name }
               end
             end
           end
         end
 
         context 'already attended' do
-          let!(:attended) { create :attendee, event: event, user: event.user }
+          let!(:attended) { create :attendance, event: event, user: event.user }
 
           before do
             visit event_path event
           end
 
-          it { should have_link('absent', absent_event_path(event)) }
+          it { should have_button('Absent') }
         end
       end
     end
