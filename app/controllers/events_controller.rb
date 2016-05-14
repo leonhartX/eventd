@@ -9,8 +9,7 @@ class EventsController < ApplicationController
 
   def show
     if current_user.id
-      @attendance = @event.attendances.find_by(user_id: current_user.id)
-      @attendance = current_user.attendances.build unless @attendance
+      @attendance = @event.attendances.find_by(user_id: current_user.id) || current_user.attendances.build
     end
   end
 

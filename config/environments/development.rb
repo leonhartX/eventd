@@ -62,5 +62,6 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
   config.session_store :redis_store, servers: 'redis://localhost:6379/0/session'
   config.eager_load_paths += %W( #{config.root}/lib )
+  config.time_zone = 'Asia/Tokyo'
 end
 OmniAuth.config.test_mode = true

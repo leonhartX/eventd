@@ -22,14 +22,9 @@ class User < ApplicationRecord
   end
 
   def update_attend event, state
-    raise "state not support!" if 
     state = "waiting" if state == "attended" && event.over?
-    attendance = attendances.find_by(event_id: event.id)
-    attendance.update_attribute :state, state
-
-    if state == "absented" && event.waiters.count > 0
-      event.waiters.order(:updated_at).first.update_attend event, "attended"
-    end
+    attendances.find_by(event_id: event.id).update_attribute :state, state
+	event.update_participant if state == "absented" 
   end
 
   class << self

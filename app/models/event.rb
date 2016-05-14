@@ -9,15 +9,20 @@ class Event < ApplicationRecord
   has_many :absentees, through: :absented, source: :user
 
   validates :title, :hold_at, :capacity, :location, :owner, presence: true
-  validates :title, format: { with: /\A[\w\s\d]+\z/, message: "only allow letters, numbers and space" }
   validates :capacity, numericality: { greater_than_or_equal_to: 1 }
+  validates_datetime :hold_at, :on_or_after => :now
 
   def over?
   	attendees.count >= capacity
   end
 
+  def update_participant
+  	return if waiters.count == 0 || attendees.count >= capacity
+  	waiters.order(:updated_at).first.update_attend self, "attended"
+  end
+
   class << self
-  	def participate_type
+  	def participant_type
   		['attendees', 'waiters', 'absentees']
   	end
   end

@@ -40,4 +40,5 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
   config.eager_load_paths += %W( #{config.root}/lib )
+  config.time_zone = 'Asia/Tokyo'
 end
