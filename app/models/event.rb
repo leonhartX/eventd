@@ -1,8 +1,8 @@
 class Event < ApplicationRecord
   belongs_to :user
-  has_many :attended, -> { where state: "attended" }, class_name: 'Attendance'
-  has_many :waiting, -> { where state: "waiting" }, class_name: 'Attendance'
-  has_many :absented, -> { where state: "absented" }, class_name: 'Attendance'
+  has_many :attended, -> { where state: :attended }, class_name: :Attendance
+  has_many :waiting, -> { where state: :waiting }, class_name: :Attendance
+  has_many :absented, -> { where state: :absented }, class_name: :Attendance
   has_many :attendances, dependent: :destroy
   has_many :attendees, through: :attended, source: :user
   has_many :waiters, through: :waiting, source: :user
@@ -23,7 +23,7 @@ class Event < ApplicationRecord
 
   class << self
   	def participant_type
-  		['attendees', 'waiters', 'absentees']
+  		[:attendees, :waiters, :absentees]
   	end
   end
 end

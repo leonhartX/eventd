@@ -43,7 +43,6 @@ RSpec.describe User, :type => :model do
       it "will be waiting when over capacity" do
         user.attend event
         otheruser.attend event
-        binding.pry
         state = otheruser.attendances.find_by(event_id: event.id).state
         expect(state).to eq "waiting"
       end

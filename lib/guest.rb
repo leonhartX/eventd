@@ -1,13 +1,11 @@
 class Guest
-  def id
-    nil
+
+  def initialize
+    @user = User.new
   end
 
-  def provider
-  	nil
-  end
-
-  def name
-  	'guest'
+  def method_missing(method, *args)
+    return nil if @user.respond_to? (method)
+    super
   end
 end

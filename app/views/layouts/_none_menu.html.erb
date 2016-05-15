@@ -3,9 +3,8 @@
     <%= "login with OpenID" %> <b class="caret"></b>
   </a>
   <ul class="dropdown-menu">
-    <li><%= link_to "Log in with Twitter", omniauth_authorize_path(:user, :twitter) %></li>
-    <li><%= link_to "Log in with Facebook", "#"%></li>
-    <li><%= link_to "Log in with Google", "#" %></li>
-    <li><%= link_to "Log in with Github", "#" %></li>
+    <% User.supported_providers.each do |provider, name|  -%>
+      <li><%= link_to "Log in with #{name}", omniauth_authorize_path(:user, provider) %></li>
+    <% end -%>
   </ul>
 </li>

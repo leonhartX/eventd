@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :edit, :update, :destroy]
-  before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action :set_event, only: [:show, :edit, :update, :destroy, :share]
   before_action :correct_user, only: [:update, :destroy]
 
   def index
@@ -22,56 +22,50 @@ class EventsController < ApplicationController
 
   def create
     @event = current_user.events.build event_params
-    respond_to do |format|
-      if @event.save
-        format.html { redirect_to @event, notice: 'Event was successfully created.' }
-        format.json { render :show, status: :created, location: @event }
-      else
-        format.html { render :new }
-        format.json { render json: @event.errors, status: :unprocessable_entity }
-      end
+    if @event.save
+      redirect_to @event, flash: { success: 'Event was successfully created.' }
+    else
+      render :new
     end
   end
 
   def update
-    respond_to do |format|
-      if @event.update(event_params)
-        format.html { redirect_to @event, notice: 'Event was successfully updated.' }
-        format.json { render :show, status: :ok, location: @event }
-      else
-        format.html { render :edit }
-        format.json { render json: @event.errors, status: :unprocessable_entity }
-      end
+    if @event.update(event_params)
+      redirect_to @event, flash: { success: 'Event was successfully updated.' }
+    else
+      render :edit
     end
   end
 
   def destroy
     @event.destroy
-    respond_to do |format|
-      format.html { redirect_to events_url, notice: 'Event was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    redirect_to events_path, flash: { success: 'Event was successfully destroyed.' }
   end
 
   def search
     @events = []
     if request.post? then
-      query = params[:search]
+      query = params[:query]
       @events = Event.where("title like '%" + query + "%'")
     end
   end
 
+  def share
+    current_user.share_event params[:message] if current_user.sharable
+    redirect_to @event, flash: { success: 'Message shared.'}
+  end
+
   private
-    def set_event
-      @event = Event.find(params[:id])
-    end
+  def set_event
+    @event = Event.find(params[:id])
+  end
 
-    def event_params
-      params.require(:event).permit(:title, :hold_at, :capacity, :location, :owner, :description)
-    end
+  def event_params
+    params.require(:event).permit(:title, :hold_at, :capacity, :location, :owner, :description)
+  end
 
-    def correct_user
-      event = current_user.events.find_by(id: params[:id])
-      redirect_to root_path if event.nil?
-    end
+  def correct_user
+    event = current_user.events.find_by(id: params[:id])
+    redirect_to root_path if event.nil?
+  end
 end

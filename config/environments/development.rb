@@ -64,4 +64,4 @@ Rails.application.configure do
   config.eager_load_paths += %W( #{config.root}/lib )
   config.time_zone = 'Asia/Tokyo'
 end
-OmniAuth.config.test_mode = true
+# OmniAuth.config.test_mode = true

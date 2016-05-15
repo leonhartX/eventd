@@ -160,7 +160,7 @@ RSpec.describe '/events', type: :feature do
         fill_in 'event_title', with: title
         fill_in 'event_capacity', with: 10
         fill_in 'event_location', with: 'test location'
-        fill_in 'event_hold_at', with: '2016-05-12 17:21:14'
+        fill_in 'event_hold_at', with: '2026-05-12 17:21:14'
         fill_in 'event_owner', with: 'test owner'
         fill_in 'event_description', with: 'test description'
         click_button 'Create Event'

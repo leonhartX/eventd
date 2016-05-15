@@ -37,8 +37,14 @@ gem 'bootstrap-sass'
 gem 'rails-controller-testing'
 gem 'devise', '4.0.0.rc2'
 gem 'omniauth'
+gem 'omniauth-oauth2'
 gem 'omniauth-twitter'
 gem 'omniauth-facebook'
+gem 'omniauth-github'
+gem 'omniauth-google-oauth2'
+gem 'omniauth_qiita'
+gem 'koala'
+gem 'twitter'
 gem 'capybara'
 gem 'validates_timeliness', '~> 4.0'
 gem 'momentjs-rails', '>= 2.9.0'
@@ -60,6 +66,7 @@ group :development, :test do
   gem 'hirb-unicode'
 
   gem 'awesome_print'
+  gem 'rails-controller-testing'
 end
 
 group :development do

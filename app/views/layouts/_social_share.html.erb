@@ -1,0 +1,4 @@
+<%= form_tag share_event_path(@event) do |f| %>
+  <%= text_area_tag :message, "Join #{@event.title}: #{request.original_url}" %>
+  <%= submit_tag "Share to #{current_user.provider}", class: "btn btn-primary" %>
+<% end %>

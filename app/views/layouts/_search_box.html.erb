@@ -1,0 +1,9 @@
+<li>
+  <%= form_tag search_event_path, class: "form-inline" do |f| %>
+   <div class="form-group">
+      <div class="input-group">
+        <%= text_field_tag :query, nil, class: "form-control", placeholder: "Searh events" %>
+      </div>
+    </div>
+  <% end %>   
+</li>

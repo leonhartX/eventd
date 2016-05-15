@@ -9,20 +9,20 @@ RSpec.describe '/auth', type: :feature do
     context 'success' do
       before do
         OmniAuth.config.mock_auth[:twitter] =
-          OmniAuth::AuthHash.new({
-                                   provider: 'twitter',
-                                   uid: user.uid,
-                                   info: {
-                                     name: user.name,
-                                     nickname: user.nickname,
-                                     image: user.image,
-                                     description: user.description
-                                   },
-                                   credentials: {
-                                     token: user.token,
-                                     secret: user.secret
-                                   }
-                                 })
+        OmniAuth::AuthHash.new({
+                                 provider: 'twitter',
+                                 uid: user.uid,
+                                 info: {
+                                   name: user.name,
+                                   nickname: user.nickname,
+                                   image: user.image,
+                                   description: user.description
+                                 },
+                                 credentials: {
+                                   token: user.token,
+                                   secret: user.secret
+                                 }
+        })
         visit user_path id: user.id
         click_link 'Log in with Twitter'
       end
@@ -37,6 +37,123 @@ RSpec.describe '/auth', type: :feature do
         OmniAuth.config.mock_auth[:twitter] = :invalid_credentials
         visit user_path id: user.id
         click_link 'Log in with Twitter'
+      end
+
+      it { current_path.should eq events_path }
+      it { should have_content 'login failure' }
+    end
+  end
+
+  describe '/auth/facebook' do
+    let(:user){ create :user }
+
+    context 'success' do
+      before do
+        OmniAuth.config.mock_auth[:facebook] =
+        OmniAuth::AuthHash.new({
+                                 provider: 'facebook',
+                                 uid: user.uid,
+                                 info: {
+                                   name: user.name,
+                                   image: user.image,
+                                 },
+                                 credentials: {
+                                   token: user.token,
+                                 }
+        })
+        visit user_path id: user.id
+        click_link 'Log in with Facebook'
+      end
+
+      it { current_path.should eq events_path }
+      it { should have_content "login as #{user.name}" }
+      it { should_not have_content 'login failure' }
+    end
+
+    context 'failure' do
+      before do
+        OmniAuth.config.mock_auth[:facebook] = :invalid_credentials
+        visit user_path id: user.id
+        click_link 'Log in with Facebook'
+      end
+
+      it { current_path.should eq events_path }
+      it { should have_content 'login failure' }
+    end
+  end
+
+  describe '/auth/google' do
+    let(:user){ create :user }
+
+    context 'success' do
+      before do
+        OmniAuth.config.mock_auth[:google_oauth2] =
+        OmniAuth::AuthHash.new({
+                                 provider: 'google_oauth2',
+                                 uid: user.uid,
+                                 info: {
+                                   name: user.name,
+                                   image: user.image,
+                                 },
+                                 credentials: {
+                                   token: user.token,
+                                 }
+        })
+        visit user_path id: user.id
+        click_link 'Log in with Google'
+      end
+
+      it { current_path.should eq events_path }
+      it { should have_content "login as #{user.name}" }
+      it { should_not have_content 'login failure' }
+    end
+
+    context 'failure' do
+      before do
+        OmniAuth.config.mock_auth[:google_oauth2] = :invalid_credentials
+        visit user_path id: user.id
+        click_link 'Log in with Google'
+      end
+
+      it { current_path.should eq events_path }
+      it { should have_content 'login failure' }
+    end
+  end
+
+  describe '/auth/github' do
+    let(:user){ create :user }
+
+    context 'success' do
+      before do
+        OmniAuth.config.mock_auth[:github] =
+        OmniAuth::AuthHash.new({
+                                 provider: 'github',
+                                 uid: user.uid,
+                                 info: {
+                                   name: user.name,
+                                   nickname: user.nickname,
+                                   image: user.image,
+                                   description: user.description
+                                 },
+                                 credentials: {
+                                   token: user.token,
+                                   secret: user.secret
+                                 }
+        })
+        visit user_path id: user.id
+        click_link 'Log in with Github'
+      end
+
+      it { current_path.should eq events_path }
+      it { should have_content "login as #{user.name}" }
+      it { should_not have_content 'login failure' }
+    end
+
+    context 'failure' do
+      before do
+        OmniAuth.config.mock_auth[:github] = :invalid_credentials
+        visit user_path id: user.id
+        click_link 'Log in with Github'
       end
 
       it { current_path.should eq events_path }
