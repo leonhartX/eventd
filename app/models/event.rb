@@ -12,8 +12,12 @@ class Event < ApplicationRecord
   validates :capacity, numericality: { greater_than_or_equal_to: 1 }
   validates_datetime :hold_at, :on_or_after => :now
 
-  def over?
+  def over_capacity?
   	attendees.count >= capacity
+  end
+
+  def available?
+    hold_at >= Time.now
   end
 
   def update_participant

@@ -1,14 +1,23 @@
-<div class="bg-info">
-  <h2><%= link_to event.title, event_path(event.id) %></h2>
-  <h2><%= link_to "Show", event_path(event.id) %></h2>
-  
-  <span class="hold_at"><%= event.hold_at %></span>
-  <span class="capacity"><%= event.capacity %></span>
-  <span class="location"><%= event.location %></span>
-  <span class="owner"><%= event.owner %></span>
-  <span class="description"><%= event.description %></span>
-
-  <span class="timestamp">
-    Created <%= time_ago_in_words(event.updated_at) %> ago.
-  </span>
+<div class="row bg-info">
+  <div class="col-xs-4">
+    <h2><%= link_to event.title, event_path(event.id) %></h2>
+    <h2><%= link_to "Show", event_path(event.id) %></h2>
+  </div>
+  <div class="col-xs-6">
+    <dl class="dl-horizontal">
+      <dt>Hold at:</dt>
+      <dd><%= event.hold_at %></dd>
+      <dt>Capacity:</dt>
+      <dd><%= event.capacity %></dd>
+      <dt>Location:</dt>
+      <dd><%= event.location %></dd>
+      <dt>Owner:</dt>
+      <dd><%= event.owner %></dd>
+      <dt>Description:</dt>
+      <dd><%= event.description %></dd>
+    </dl>
+  </div>
 </div>
+<span class="timestamp">
+    Updated <%= time_ago_in_words(event.updated_at) %> ago.
+</span>

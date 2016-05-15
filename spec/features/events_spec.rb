@@ -4,13 +4,36 @@ RSpec.describe '/events', type: :feature do
   subject { page }
 
   describe '/events' do
-    let!(:events) { create_list :event, 3 }
+    let!(:events) { create_list :event, 10 }
     before do
       visit events_path
     end
 
-    it { should have_content events.sample.title }
-    it { should have_link('Show', event_path(events.sample)) }
+    it { should have_content events.first.title }
+    it { should have_link('Show', event_path(events.first)) }
+    it { should_not have_content events.last.title }
+    it { should have_link('Show', event_path(events.last)) }
+
+    context 'paginate' do
+      it { should have_link('← Previous'), "#" }
+      it { should have_link('1'), "#" }
+      it { should have_link('2'), "#{events_path}?page=2" }
+      it { should have_link('Next →'), "#{events_path}?page=2" }
+
+      context "next page" do
+        before do
+          click_link 'Next →'
+        end
+        it { should have_link('← Previous'), "#{events_path}?page=1" }
+        it { should have_link('1'), "#{events_path}?page=1" }
+        it { should have_link('2'), "#" }
+        it { should have_link('Next →'), "#" }
+        it { should have_content events.last.title }
+        it { should have_link('Show', event_path(events.last)) }
+        it { should_not have_content events.first.title }
+        it { should have_link('Show', event_path(events.first)) }
+      end
+    end
 
     context 'click show link' do
       before do
@@ -37,6 +60,7 @@ RSpec.describe '/events', type: :feature do
     it { should have_content event.description }
     it { should have_css '#attendees' } #出席者リストのID
     it { should have_css '#absentees' } #欠席者リストのID
+    it { should have_css '#waiters'}
 
     context 'not logged-in' do
       before do
@@ -47,10 +71,13 @@ RSpec.describe '/events', type: :feature do
       it { should_not have_link('Destroy', event_path(event)) }
       it { should_not have_button('Absent') }
       it { should_not have_button('Attend') }
+      it { should_not have_content "Join #{event.title}: #{event_url(event)}" }
+      it { should_not have_css("input[type='submit']") }
 
       describe 'attendee' do
         let!(:attended) { create_list :attendance, 2, event: event }
         let!(:absented) { create_list :attendance, 2, event: event, state: 'absented' }
+        let!(:waiting) {create_list :attendance, 2, event: event, state: 'waiting'}
 
         before do
           visit event_path event
@@ -60,7 +87,19 @@ RSpec.describe '/events', type: :feature do
         it { should have_content attended.last.user.name }
         it { should have_content absented.first.user.name }
         it { should have_content absented.last.user.name }
+        it { should have_content waiting.first.user.name }
+        it { should have_content waiting.last.user.name }
       end
+    end
+
+    context 'wrong onwer' do
+      let(:guest) { create :user }
+      before do
+        login! guest
+        visit event_path event
+      end
+      it { should_not have_link('Edit', edit_event_path(event)) }
+      it { should_not have_link('Destroy', event_path(event)) }
     end
 
     context 'logged-in' do

@@ -6,4 +6,10 @@ class Attendance < ApplicationRecord
   def attending?
     state && state != "absented"
   end
+
+  class << self
+    def states
+      [:attended, :waiting, :absented]
+    end
+  end
 end

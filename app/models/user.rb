@@ -17,18 +17,18 @@ class User < ApplicationRecord
   end
 
   def attend event
-    state = event.over? ? "waiting" : "attended"
+    state = event.over_capacity? ? "waiting" : "attended"
     attendances.create(event_id: event.id, state: state)
   end
 
   def update_attend event, state
-    state = "waiting" if state == "attended" && event.over?
+    state = "waiting" if state == "attended" && event.over_capacity?
     attendances.find_by(event_id: event.id).update_attribute :state, state
     event.update_participant if state == "absented"
   end
 
-  def share_event message
-    @client ||= OauthClient.new self
+  def share_event message, proxy = nil
+    @client ||= OauthClient.new self, proxy
     @client.share message
   end
 

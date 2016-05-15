@@ -4,7 +4,7 @@ class EventsController < ApplicationController
   before_action :correct_user, only: [:update, :destroy]
 
   def index
-    @events = Event.paginate(page: params[:page])
+    @events = Event.paginate(page: params[:page], per_page: 5)
   end
 
   def show

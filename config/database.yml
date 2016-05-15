@@ -15,7 +15,7 @@ default: &default
   pool: 5
   username: root
   password: password
-  host: 127.0.0.1
+  host: <%= ENV['DATABASE_HOST'] || '127.0.0.1' %>
 
 development:
   <<: *default

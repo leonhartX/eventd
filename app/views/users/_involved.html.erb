@@ -1,0 +1,6 @@
+<% Attendance.states.each do |state|  -%>
+	<div id=<%=state%> >
+	  <h2><%=state%></h2>
+	  <%= render @user.send "#{state}_events" %>
+	</div>
+ <% end -%>

@@ -1,5 +1,5 @@
 <li>
-  <%= form_tag searchs_path, class: "form-inline" do |f| %>
+  <%= form_tag searchs_path, class: "form-inline", id: "search" do |f| %>
    <div class="form-group">
       <div class="input-group">
         <%= text_field_tag :query, nil, class: "form-control", placeholder: "Searh events" %>

@@ -5,6 +5,8 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'devise'
 require 'guest'
+require 'oauth_client'
+require 'stub_client'
 require 'rails-controller-testing'
 # Add additional requires below this line. Rails is not loaded until this point!
 

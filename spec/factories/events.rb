@@ -1,6 +1,6 @@
 FactoryGirl.define do
   sequence :title do |n|
-    "event_#{n}"
+    "test_event_#{n}"
   end
   factory :event do
     title

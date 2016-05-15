@@ -1,5 +1,6 @@
 class OauthClient
-  def initialize user, klass=nil
+  def initialize user, klass = nil
+  	binding.pry
     klass ||= "#{user.provider}".capitalize + "Client"
     klazz = Object.const_get klass
     @proxy = klazz.new user

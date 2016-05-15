@@ -16,5 +16,6 @@ FactoryGirl.define do
     uid
     token "some token"
     secret "some secret"
+    sharable true
   end
 end

@@ -67,18 +67,32 @@ RSpec.describe Event, :type => :model do
     let(:event) { create :event, capacity: 1 }
 
     it "is not over when less than capacity" do
-      expect(event.over?).to be_falsey
+      expect(event.over_capacity?).to be_falsey
     end
 
     it "is over when equal to capacity" do
       user.attend event
-      expect(event.over?).to be_truthy
+      expect(event.over_capacity?).to be_truthy
     end
 
     it "is over when greater than capacity" do
       user.attend event
       otheruser.attend event
-      expect(event.over?).to be_truthy
+      expect(event.over_capacity?).to be_truthy
+    end
+  end
+
+    describe "available check" do
+    let(:user) { create :user }
+    let(:event) { create :event, capacity: 1 }
+
+    it "is available when hold_at is future" do
+      expect(event.available?).to be_truthy
+    end
+
+    it "is not available when hold_at is past" do
+      event.update_attribute :hold_at, 1.day.ago
+      expect(event.available?).to be_falsey
     end
   end
 

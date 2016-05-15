@@ -1,9 +1,5 @@
 class SearchsController < ApplicationController
   def create
-    @events = []
-    if request.post? then
-      query = params[:query]
-      @events = Event.where("title like '%" + query + "%'")
-    end
+    @events = Event.where("title like '%" + params[:query] + "%'")
   end
 end

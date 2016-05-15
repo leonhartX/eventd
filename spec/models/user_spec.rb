@@ -100,4 +100,15 @@ RSpec.describe User, :type => :model do
       end
     end
   end
+
+  describe "share" do
+    context "provider client" do
+      let(:user) { create :user, provider: :stub }
+
+      it "has client " do
+        user.share_event "join this event"
+        expect(user.instance_variable_get(:@client)).not_to be_nil          
+      end
+    end
+  end
 end
