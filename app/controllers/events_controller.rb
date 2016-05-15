@@ -42,19 +42,6 @@ class EventsController < ApplicationController
     redirect_to events_path, flash: { success: 'Event was successfully destroyed.' }
   end
 
-  def search
-    @events = []
-    if request.post? then
-      query = params[:query]
-      @events = Event.where("title like '%" + query + "%'")
-    end
-  end
-
-  def share
-    current_user.share_event params[:message] if current_user.sharable
-    redirect_to @event, flash: { success: 'Message shared.'}
-  end
-
   private
   def set_event
     @event = Event.find(params[:id])

@@ -1,0 +1,9 @@
+.git*
+.dockeringore
+.circle.yml
+log/*
+tmp/*
+README.rdoc
+Dockerfile
+docker-compose.yml*
+*.sublilme-*

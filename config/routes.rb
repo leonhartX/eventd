@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   resources :users, only: [:index, :show]
   resources :events
   resources :attendances, only: [:create, :update]
+  resources :shares, only: [:create]
+  resources :searchs, only: [:create]
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   # Serve websocket cable requests in-process

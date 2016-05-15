@@ -13,7 +13,6 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def failure
-    flash[:danger] = "login failure"
-    redirect_to events_path
+    redirect_to events_path, flash: { danger: "login failure" }
   end
 end
