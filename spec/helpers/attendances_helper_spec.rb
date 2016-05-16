@@ -11,5 +11,20 @@ require 'rails_helper'
 #   end
 # end
 RSpec.describe AttendancesHelper, :type => :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:attendance) { create :attendance }
+
+  describe "auth_type" do
+    it "is none when no attendance" do
+      expect(action_type nil).to eq "none"
+    end
+
+    it "is create" do
+      attendance.state = nil
+      expect(action_type attendance).to eq "create"
+    end
+
+    it "is update" do
+      expect(action_type attendance).to eq "update"
+    end
+  end
 end
