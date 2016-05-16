@@ -7,7 +7,7 @@ mysql:
     MYSQL_DATABASE: app_development
   ports:
     - "3306:3306"
-  command: mysqld --character-set-server=utf8mb4
+  command: mysqld --character-set-server=utf8
 
 redis:
   image: redis
