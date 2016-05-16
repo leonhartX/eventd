@@ -14,8 +14,7 @@ dependencies:
 
 test:
   override:
-    - rspec spec/models
-    - rspec spec/features
+    - rspec spec
 
 deployment:
   hub:
