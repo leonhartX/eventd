@@ -8,7 +8,7 @@
       <dt>Hold at:</dt>
       <dd><%= event.hold_at %></dd>
       <dt>Capacity:</dt>
-      <dd><%= event.capacity %></dd>
+      <dd><%= "#{event.attendees.count + event.waiters.count} / #{event.capacity}" %></dd>
       <dt>Location:</dt>
       <dd><%= event.location %></dd>
       <dt>Owner:</dt>

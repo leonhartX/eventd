@@ -61,6 +61,7 @@ RSpec.describe '/events', type: :feature do
     it { should have_css '#attendees' } #出席者リストのID
     it { should have_css '#absentees' } #欠席者リストのID
     it { should have_css '#waiters'}
+    it { should have_content event.attendees.count + event.waiters.count }
 
     context 'not logged-in' do
       before do

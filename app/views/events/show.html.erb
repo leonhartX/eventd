@@ -1,13 +1,18 @@
-<%= render @event %>
-<% if @event.user_id == current_user.id  %>
-  <%= link_to 'Edit', edit_event_path(@event) %> |
-  <%= link_to "Destroy", @event, remote: true, method: :delete, data: { confirm: "You sure?" } %> |
-<% end %>
-<% if @event.available? %>
-  <%= render "attendances/#{action_type @attendance}" %>
-<% else %>
-  <span>The event is Closed.</span>
-<% end %>
-<%= render "participant" %>
-<%= link_to 'Back', events_path %>
-<%= render "layouts/social_share" if current_user.sharable %>
+<div class="col-xs-9">
+  <h2><%= @event.title %></h2>
+  <%= render @event %>
+  <% if @event.user_id == current_user.id  %>
+    <%= link_to 'Edit', edit_event_path(@event) %> |
+    <%= link_to "Destroy", @event, remote: true, method: :delete, data: { confirm: "You sure?" } %> |
+  <% end %>
+  <% if @event.available? %>
+    <%= render "attendances/#{action_type @attendance}" %>
+  <% else %>
+    <span>The event is Closed.</span>
+  <% end %>
+  <%= link_to 'Back', events_path %>
+</div>
+<div class="col-xs-3">
+  <%= render "participant" %>
+  <%= render "layouts/social_share" if current_user.sharable %>
+</div>
