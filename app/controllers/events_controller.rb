@@ -4,7 +4,7 @@ class EventsController < ApplicationController
   before_action :correct_user, only: [:update, :destroy]
 
   def index
-    @events = Event.paginate(page: params[:page], per_page: 5)
+    @events = Event.order(updated_at: :desc).paginate(page: params[:page], per_page: 5)
   end
 
   def show
@@ -21,8 +21,13 @@ class EventsController < ApplicationController
   end
 
   def create
-    @event = current_user.events.build event_params
+    binding.pry
+    @event = current_user.created_events.build event_params
     if @event.save
+      params[:event][:tags].split(",").each do |t|
+        tag = Tag.find_or_create_by name: t.strip.downcase
+        @event.add_tag tag
+      end
       redirect_to @event, flash: { success: 'Event was successfully created.' }
     else
       render :new
@@ -52,7 +57,7 @@ class EventsController < ApplicationController
   end
 
   def correct_user
-    event = current_user.events.find_by(id: params[:id])
+    event = current_user.created_events.find_by(id: params[:id])
     redirect_to root_path if event.nil?
   end
 end

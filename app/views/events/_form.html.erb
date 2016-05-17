@@ -10,7 +10,7 @@
       <%= f.text_field :location, class: 'form-control' %>
 
       <%= f.label :hold_at %>
-      <%= f.text_field :hold_at, data: { :date_format => 'YYYY/MM/DD hh:mm' }, class: "form-control date-picker" %>
+      <%= f.text_field :hold_at, data: { date_format: 'YYYY/MM/DD hh:mm' }, class: "form-control date-picker" %>
 
       <%= f.label :capacity %>
       <%= f.text_field :capacity, class: 'form-control' %>
@@ -20,6 +20,9 @@
 
       <%= f.label :description %>
       <%= f.text_field :description, class: 'form-control' %>
+
+      <%= f.label :tag %>
+      <%= f.autocomplete_field :tags, autocomplete_tag_name_completions_path, 'data-delimiter' => ',', class: 'form-control', value: "" %>
 
       <div class="actions">
         <%= f.submit %>

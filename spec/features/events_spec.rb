@@ -6,6 +6,9 @@ RSpec.describe '/events', type: :feature do
   describe '/events' do
     let!(:events) { create_list :event, 10 }
     before do
+      date = events.sample.updated_at
+      events.last.update_attribute :updated_at, 1.day.ago
+      events.first.update_attribute :updated_at, Time.now
       visit events_path
     end
 

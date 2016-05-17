@@ -7,6 +7,8 @@ class Event < ApplicationRecord
   has_many :attendees, through: :attended, source: :user
   has_many :waiters, through: :waiting, source: :user
   has_many :absentees, through: :absented, source: :user
+  has_many :properties, dependent: :destroy
+  has_many :tags, through: :properties, source: :tag
 
   validates :title, :hold_at, :capacity, :location, :owner, presence: true
   validates :capacity, numericality: { greater_than_or_equal_to: 1 }
@@ -18,6 +20,10 @@ class Event < ApplicationRecord
 
   def available?
     hold_at >= Time.now
+  end
+
+  def add_tag tag
+    properties.create tag_id: tag.id
   end
 
   def update_participant
