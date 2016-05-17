@@ -1,6 +1,7 @@
 <h1>Search Results</h1>
 <ul class="event">
-  <%= render @events %>
+  <%= render @searchs %>
 </ul>
+<%= will_paginate %>
 <%= link_to 'New Event', new_event_path %> |
 <%= link_to 'Back', events_path %>

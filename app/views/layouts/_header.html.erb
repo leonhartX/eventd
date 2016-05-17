@@ -5,6 +5,8 @@
       <ul class="nav navbar-nav navbar-right">
         <%= render "layouts/search_box" %>
         <li><%= link_to "Home", root_path %></li>
+        <li><%= link_to "Users", users_path %></li>
+        <li><%= link_to "Create Event", new_event_path %></li>
         <%= render "layouts/#{auth_type}_menu" %>
       </ul>
     </nav>
