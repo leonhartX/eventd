@@ -161,6 +161,120 @@ RSpec.describe '/auth', type: :feature do
     end
   end
 
+  describe '/auth/qiita' do
+    let(:user){ create :user }
+
+    context 'success' do
+      before do
+        OmniAuth.config.mock_auth[:qiita] =
+        OmniAuth::AuthHash.new({
+                                 provider: 'qiita',
+                                 uid: user.uid,
+                                 info: {
+                                   name: "",
+                                   nickname: user.nickname,
+                                   image: user.image,
+                                 },
+                                 credentials: {
+                                   token: user.token,
+                                   secret: user.secret
+                                 }
+        })
+        visit user_path id: user.id
+        click_link 'Log in with Qiita'
+      end
+
+      it { current_path.should eq events_path }
+      it { should have_content "login as #{user.nickname}" }
+      it { should_not have_content 'login failure' }
+    end
+
+    context 'failure' do
+      before do
+        OmniAuth.config.mock_auth[:qiita] = :invalid_credentials
+        visit user_path id: user.id
+        click_link 'Log in with Qiita'
+      end
+
+      it { current_path.should eq events_path }
+      it { should have_content 'login failure' }
+    end
+  end
+
+  describe '/auth/amazon' do
+    let(:user){ create :user }
+
+    context 'success' do
+      before do
+        OmniAuth.config.mock_auth[:amazon] =
+        OmniAuth::AuthHash.new({
+                                 provider: 'amazon',
+                                 uid: user.uid,
+                                 info: {
+                                   name: user.name,
+                                 },
+                                 credentials: {
+                                   token: user.token
+                                 }
+        })
+        visit user_path id: user.id
+        click_link 'Log in with Amazon'
+      end
+
+      it { current_path.should eq events_path }
+      it { should have_content "login as #{user.name}" }
+      it { should_not have_content 'login failure' }
+    end
+
+    context 'failure' do
+      before do
+        OmniAuth.config.mock_auth[:amazon] = :invalid_credentials
+        visit user_path id: user.id
+        click_link 'Log in with Amazon'
+      end
+
+      it { current_path.should eq events_path }
+      it { should have_content 'login failure' }
+    end
+  end
+
+  describe '/auth/yahoojp' do
+    let(:user){ create :user }
+
+    context 'success' do
+      before do
+        OmniAuth.config.mock_auth[:yahoojp] =
+        OmniAuth::AuthHash.new({
+                                 provider: 'yahoojp',
+                                 uid: user.uid,
+                                 info: {
+                                   name: user.name,
+                                 },
+                                 credentials: {
+                                   token: user.token
+                                 }
+        })
+        visit user_path id: user.id
+        click_link 'Log in with Yahoo'
+      end
+
+      it { current_path.should eq events_path }
+      it { should have_content "login as #{user.name}" }
+      it { should_not have_content 'login failure' }
+    end
+
+    context 'failure' do
+      before do
+        OmniAuth.config.mock_auth[:yahoojp] = :invalid_credentials
+        visit user_path id: user.id
+        click_link 'Log in with Yahoo'
+      end
+
+      it { current_path.should eq events_path }
+      it { should have_content 'login failure' }
+    end
+  end
+
   describe 'layout' do
     context 'not logged-in' do
       let(:user){ create :user }

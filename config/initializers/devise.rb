@@ -248,6 +248,8 @@ Devise.setup do |config|
   config.omniauth :google_oauth2, ENV["GOOGLE_CLIENT_ID"], ENV["GOOGLE_SECRET"], skip_jwt: true
   config.omniauth :github, ENV["GITHUB_CLIENT_ID"], ENV["GITHUB_SECRET"], scope: 'user'
   config.omniauth :qiita, ENV['QIITA_CLIENT_ID'], ENV['QIITA_SECRET']
+  config.omniauth :amazon, ENV['AMAZON_CLIENT_ID'], ENV['AMAZON_SECRET']
+  config.omniauth :yahoojp, ENV['YAHOOJP_CLIENT_ID'], ENV['YAHOOJP_SECRET'], scope: 'openid profile'
 
 
   # ==> Warden configuration

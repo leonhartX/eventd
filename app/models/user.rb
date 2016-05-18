@@ -9,8 +9,8 @@ class User < ApplicationRecord
   has_many :absented_events, through: :absented, source: :event
   has_many :involvements, through: :attendances, source: :event
   validates :provider, :uid, presence: true
-  devise :database_authenticatable, :trackable, :timeoutable,
-    :omniauthable, omniauth_providers: [:twitter, :facebook, :google_oauth2, :github, :qiita]
+  devise :database_authenticatable, :trackable, :timeoutable, :omniauthable,
+    omniauth_providers: [:twitter, :facebook, :google_oauth2, :github, :qiita, :amazon, :yahoojp]
 
   def password_required?
     super && provider.blank?
@@ -34,7 +34,15 @@ class User < ApplicationRecord
 
   class << self
     def supported_providers
-      { twitter: :Twitter, facebook: :Facebook, google_oauth2: :Google, github: :Github, qiita: :Qiita }
+      {
+        twitter: :Twitter,
+        facebook: :Facebook,
+        google_oauth2: :Google,
+        github: :Github,
+        qiita: :Qiita,
+        amazon: :Amazon,
+        yahoojp: :Yahoo
+      }
     end
 
     def from_oauth(auth)
@@ -42,7 +50,7 @@ class User < ApplicationRecord
         user.provider = auth[:provider]
         user.uid = auth[:uid]
         user.name = auth[:info][:name]
-        user.image = auth[:info][:image]
+        user.image = auth[:info][:image] || "/assets/icon.png"
         user.nickname = auth[:info][:nickname]
         user.description = auth[:info][:description]
 
