@@ -7,7 +7,7 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
         sign_in_and_redirect @user
       else
         session["devise.user_attributes"] = @user.attribute
-        redirect_to events_path
+        redirect_back fallback_location: root_path
       end
     end
   end

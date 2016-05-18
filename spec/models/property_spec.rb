@@ -1,5 +1,24 @@
 require 'rails_helper'
 
 RSpec.describe Property, :type => :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "validates" do
+    let(:property) { create :property }
+    context "valid" do
+      it "is valid" do
+        expect(property).to be_valid
+      end
+    end
+
+    context "invalid" do
+      it "is not valid without user" do
+      	property.tag_id = nil
+      	expect(property).not_to be_valid  
+      end
+
+      it "is not valid whitout event" do
+      	property.event_id = nil
+      	expect(property).not_to be_valid 
+      end
+    end
+  end
 end

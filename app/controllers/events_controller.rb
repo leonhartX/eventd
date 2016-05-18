@@ -21,13 +21,9 @@ class EventsController < ApplicationController
   end
 
   def create
-    binding.pry
     @event = current_user.created_events.build event_params
     if @event.save
-      params[:event][:tags].split(",").each do |t|
-        tag = Tag.find_or_create_by name: t.strip.downcase
-        @event.add_tag tag
-      end
+      update_tag
       redirect_to @event, flash: { success: 'Event was successfully created.' }
     else
       render :new
@@ -36,6 +32,7 @@ class EventsController < ApplicationController
 
   def update
     if @event.update(event_params)
+      update_tag
       redirect_to @event, flash: { success: 'Event was successfully updated.' }
     else
       render :edit
@@ -59,5 +56,12 @@ class EventsController < ApplicationController
   def correct_user
     event = current_user.created_events.find_by(id: params[:id])
     redirect_to root_path if event.nil?
+  end
+
+  def update_tag
+    params[:event][:tags].split(/[\s,]/).each do |t|
+      tag = Tag.find_or_create_by name: t.strip.downcase
+      @event.add_tag tag
+    end
   end
 end

@@ -8,6 +8,7 @@ RSpec.describe '/events', type: :feature do
     before do
       date = events.sample.updated_at
       events.last.update_attribute :updated_at, 1.day.ago
+      sleep 1
       events.first.update_attribute :updated_at, Time.now
       visit events_path
     end
@@ -50,7 +51,8 @@ RSpec.describe '/events', type: :feature do
   end
 
   describe '/events/:id' do
-    let(:event) { create :event }
+    let!(:property) { create :property }
+    let(:event) { property.event }
     before do
       visit event_path event
     end
@@ -65,6 +67,7 @@ RSpec.describe '/events', type: :feature do
     it { should have_css '#absentees' } #欠席者リストのID
     it { should have_css '#waiters'}
     it { should have_content event.attendees.count + event.waiters.count }
+    it { should have_content event.tags.first.name }
 
     context 'not logged-in' do
       before do
@@ -76,7 +79,7 @@ RSpec.describe '/events', type: :feature do
       it { should_not have_button('Absent') }
       it { should_not have_button('Attend') }
       it { should_not have_content "Join #{event.title}: #{event_url(event)}" }
-      it { should_not have_css("input[type='submit']") }
+      it { should_not have_css("textarea[name='message']") }
 
       describe 'attendee' do
         let!(:attended) { create_list :attendance, 2, event: event }

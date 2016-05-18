@@ -15,6 +15,12 @@
       <dd><%= event.owner %></dd>
       <dt>Description:</dt>
       <dd><%= event.description %></dd>
+      <dt>Tag:</dt>
+      <dd>
+        <% event.tags.each do |tag| -%>
+          <%= link_to tag.name, searchs_path(params:{ query: "tag:#{tag.name}" }), method: :post %>
+        <% end -%>
+      </dd>
     </dl>
   </div>
 </div>

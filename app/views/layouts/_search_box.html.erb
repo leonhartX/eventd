@@ -2,8 +2,10 @@
   <%= form_tag searchs_path, class: "form-inline", id: "search" do |f| %>
    <div class="form-group">
       <div class="input-group">
-        <%= text_field_tag :query, nil, class: "form-control", placeholder: "Searh events" %>
+        <%= text_field_tag :query, @searchs ? session[:query] : nil, class: "form-control", placeholder: "Search Event", \
+            title: "search like \"tags:sometag owner:someone location:somewhere ... \"" %>
       </div>
+      <%= submit_tag "Search", class: "invisible", id: "search_submit" %>
     </div>
-  <% end %>   
+  <% end %>
 </li>

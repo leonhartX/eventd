@@ -22,7 +22,7 @@
       <%= f.text_field :description, class: 'form-control' %>
 
       <%= f.label :tag %>
-      <%= f.autocomplete_field :tags, autocomplete_tag_name_completions_path, 'data-delimiter' => ',', class: 'form-control', value: "" %>
+      <%= f.autocomplete_field :tags, autocomplete_tag_name_completions_path, 'data-delimiter' => ',', class: 'form-control', value: event.tags.map(&:name).join(",") %>
 
       <div class="actions">
         <%= f.submit %>
