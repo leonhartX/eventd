@@ -23,7 +23,7 @@ class Event < ApplicationRecord
   end
 
   def add_tag tag
-    properties.create tag_id: tag.id
+    properties.find_or_create_by tag_id: tag.id
   end
 
   def update_participant
