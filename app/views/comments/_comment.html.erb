@@ -1,0 +1,11 @@
+<li id="comment-<%= comment.id %>">
+  <%= image_tag comment.user.image, alt: comment.user.name, size: "50x50" %>
+  <span class="user"><%= link_to comment.user.name, comment.user %></span>
+  <span class="content"><%= comment.content %></span>
+  <span class="timestamp">
+    Commented <%= time_ago_in_words(comment.created_at) %> ago.
+    <% if comment.user_id == current_user.id %>
+      <%= link_to "delete", comment, remote: true, method: :delete, data: { confirm: "You sure?" } %>
+    <% end %>
+  </span>
+</li>

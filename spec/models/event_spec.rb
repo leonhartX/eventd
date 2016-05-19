@@ -53,8 +53,28 @@ RSpec.describe Event, :type => :model do
           expect(event).not_to be_valid
         end
 
-        it "is not valid then hold_at is before now" do
+        it "is not valid when hold_at is before now" do
           event.hold_at = 1.day.ago
+          expect(event).not_to be_valid
+        end
+
+        it "is not valid when title is over 255" do
+          event.title = "a" * 256
+          expect(event).not_to be_valid
+        end
+
+        it "is not valid when location is over 255" do
+          event.location = "a" * 256
+          expect(event).not_to be_valid
+        end
+
+        it "is not valid when owner is over 255" do
+          event.owner = "a" * 256
+          expect(event).not_to be_valid
+        end
+
+        it "is not valid when description is over 10000" do
+          event.description = "a" * 10001
           expect(event).not_to be_valid
         end
       end

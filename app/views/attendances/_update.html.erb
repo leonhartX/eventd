@@ -4,6 +4,6 @@
       <%= hidden_field_tag :event_id, @event.id %>
       <%= hidden_field_tag :state, @attendance.attending? ? "absented" : "attended" %>
     </div>
-    <%= f.button @attendance.attending? ? "Absent" : "Attend", class: "btn btn-primary" %>
+    <%= f.button involve_type(@attendance), class: "btn btn-primary" %>
   </div>
 <% end %>

@@ -2,6 +2,7 @@
   <div class="col-xs-4">
     <h2><%= link_to event.title, event_path(event.id) %></h2>
     <h2><%= link_to "Show", event_path(event.id) %></h2>
+    <p><%= "Created By #{event.user.name}" %></p>
   </div>
   <div class="col-xs-6">
     <dl class="dl-horizontal">

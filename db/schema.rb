@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160518084007) do
+ActiveRecord::Schema.define(version: 20160519054103) do
 
   create_table "attendances", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -24,15 +24,26 @@ ActiveRecord::Schema.define(version: 20160518084007) do
     t.index ["user_id"], name: "index_attendances_on_user_id", using: :btree
   end
 
+  create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.text     "content",    limit: 65535, null: false
+    t.integer  "event_id"
+    t.integer  "user_id"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.index ["event_id", "user_id"], name: "index_comments_on_event_id_and_user_id", using: :btree
+    t.index ["event_id"], name: "index_comments_on_event_id", using: :btree
+    t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
+  end
+
   create_table "events", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "title",       null: false
-    t.datetime "hold_at",     null: false
-    t.integer  "capacity",    null: false
-    t.string   "location",    null: false
-    t.string   "owner",       null: false
-    t.string   "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.string   "title",                     null: false
+    t.datetime "hold_at",                   null: false
+    t.integer  "capacity",                  null: false
+    t.string   "location",                  null: false
+    t.string   "owner",                     null: false
+    t.text     "description", limit: 65535
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.integer  "user_id"
     t.index ["user_id"], name: "index_events_on_user_id", using: :btree
   end
@@ -78,6 +89,8 @@ ActiveRecord::Schema.define(version: 20160518084007) do
 
   add_foreign_key "attendances", "events"
   add_foreign_key "attendances", "users"
+  add_foreign_key "comments", "events"
+  add_foreign_key "comments", "users"
   add_foreign_key "events", "users"
   add_foreign_key "properties", "events"
   add_foreign_key "properties", "tags"

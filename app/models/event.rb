@@ -9,8 +9,11 @@ class Event < ApplicationRecord
   has_many :absentees, through: :absented, source: :user
   has_many :properties, dependent: :destroy
   has_many :tags, through: :properties, source: :tag
+  has_many :comments, dependent: :destroy
 
   validates :title, :hold_at, :capacity, :location, :owner, presence: true
+  validates :title, :location, :owner, length: { maximum: 255 }
+  validates :description, length: { maximum: 10000 }
   validates :capacity, numericality: { greater_than_or_equal_to: 1 }
   validates_datetime :hold_at, :on_or_after => :now
 

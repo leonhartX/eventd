@@ -181,6 +181,39 @@ RSpec.describe '/events', type: :feature do
 
           it { should have_button('Absent') }
         end
+
+        context 'over capacity' do
+          let!(:attended) { create :attendance, event: event }
+
+          before do
+            visit event_path event
+          end
+
+          it { should have_button('Attend as waiter') }
+
+          context "click attend as waiter" do
+            before do
+              click_button('Attend as waiter')
+            end
+
+            it { current_path.should eq event_path(event) }
+            it { should have_button('Absent') }
+            it { find('#waiters').should have_content event.user.name }
+            it { find('#attendees').should_not have_content event.user.name }
+            it { find('#absentees').should_not have_content event.user.name }
+
+            context "absent form waiters" do
+              before do
+                click_button('Absent')
+              end
+
+              it { current_path.should eq event_path(event) }
+              it { should have_button('Attend as waiter') }
+              it { find('#waiters').should_not have_content event.user.name }
+              it { find('#absentees').should have_content event.user.name }
+            end
+          end
+        end
       end
     end
   end

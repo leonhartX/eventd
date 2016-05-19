@@ -10,6 +10,7 @@ class EventsController < ApplicationController
   def show
     if current_user.id
       @attendance = @event.attendances.find_or_create_by(user_id: current_user.id)
+      @comment = Comment.new(event_id: @event.id)
     end
   end
 

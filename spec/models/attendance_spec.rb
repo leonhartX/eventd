@@ -15,7 +15,7 @@ RSpec.describe Attendance, :type => :model do
       	expect(attendance).not_to be_valid  
       end
 
-      it "is not valid whitout event" do
+      it "is not valid without event" do
       	attendance.event_id = nil
       	expect(attendance).not_to be_valid 
       end

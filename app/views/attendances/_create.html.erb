@@ -3,6 +3,6 @@
     <div class="input-group">
       <%= hidden_field_tag :event_id, @event.id %>
     </div>
-    <%= f.button "Attend", class: "btn btn-primary" %>
+    <%= f.button involve_type(@attendance) , class: "btn btn-primary" %>
   </div>
 <% end %>

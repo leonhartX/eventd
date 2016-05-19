@@ -27,4 +27,23 @@ RSpec.describe AttendancesHelper, :type => :helper do
       expect(action_type attendance).to eq "update"
     end
   end
+
+  describe "involve_type" do
+    let!(:another_attendance) { create :attendance, event_id: attendance.event_id }
+    it "is absent when attended" do
+      attendance.state = "attended"
+      expect(involve_type attendance).to eq "Absent"  
+    end
+
+    it "is attend when available to attend" do
+      attendance.update_attribute :state, "absented"
+      attendance.event.update_attribute :capacity, 2
+      expect(involve_type attendance).to eq "Attend" 
+    end
+
+    it "is attend as waiter when not available" do
+      attendance.update_attribute :state, "absented"
+      expect(involve_type attendance).to eq "Attend as waiter"
+    end
+  end
 end

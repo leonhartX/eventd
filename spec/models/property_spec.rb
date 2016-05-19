@@ -10,12 +10,12 @@ RSpec.describe Property, :type => :model do
     end
 
     context "invalid" do
-      it "is not valid without user" do
+      it "is not valid without tag" do
       	property.tag_id = nil
       	expect(property).not_to be_valid  
       end
 
-      it "is not valid whitout event" do
+      it "is not valid without event" do
       	property.event_id = nil
       	expect(property).not_to be_valid 
       end

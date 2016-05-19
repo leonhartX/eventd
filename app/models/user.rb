@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   has_many :created_events, dependent: :destroy, class_name: :Event
+  has_many :comments, dependent: :destroy
   has_many :attendances, dependent: :destroy
   has_many :attended, -> { where state: :attended }, class_name: :Attendance
   has_many :waiting, -> { where state: :waiting }, class_name: :Attendance
