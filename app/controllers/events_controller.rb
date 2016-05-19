@@ -46,23 +46,23 @@ class EventsController < ApplicationController
   end
 
   private
-  def set_event
-    @event = Event.find(params[:id])
-  end
-
-  def event_params
-    params.require(:event).permit(:title, :hold_at, :capacity, :location, :owner, :description)
-  end
-
-  def correct_user
-    event = current_user.created_events.find_by(id: params[:id])
-    redirect_to root_path if event.nil?
-  end
-
-  def update_tag
-    params[:event][:tags].split(/[\s,]/).each do |t|
-      tag = Tag.find_or_create_by name: t.strip.downcase
-      @event.add_tag tag
+    def set_event
+      @event = Event.find(params[:id])
     end
-  end
+
+    def event_params
+      params.require(:event).permit(:title, :hold_at, :capacity, :location, :owner, :description)
+    end
+
+    def correct_user
+      event = current_user.created_events.find_by(id: params[:id])
+      redirect_to root_path if event.nil?
+    end
+
+    def update_tag
+      params[:event][:tags].split(/[\s,]/).each do |t|
+        tag = Tag.find_or_create_by name: t.strip.downcase
+        @event.add_tag tag
+      end
+    end
 end

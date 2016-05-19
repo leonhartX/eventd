@@ -30,7 +30,7 @@ class Event < ApplicationRecord
   end
 
   def update_participant
-  	return if waiters.count == 0 || attendees.count >= capacity
+  	return if waiters.count == 0 || over_capacity?
   	waiters.order(:updated_at).first.update_attend self, "attended"
   end
 

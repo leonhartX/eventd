@@ -1,9 +1,12 @@
 .git*
 .dockeringore
 .circle.yml
+.DS_Store
+.byebug_history
 log/*
 tmp/*
-README.rdoc
+README.md
+circle.yml
 Dockerfile
 docker-compose.yml*
 *.sublilme-*

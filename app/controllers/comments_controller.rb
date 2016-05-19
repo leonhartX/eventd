@@ -13,16 +13,16 @@ class CommentsController < ApplicationController
 
   def destroy
     @comment.destroy
-    redirect_back fallback_location: root_path, flash: { success: 'comment deleted.'}
+    redirect_back fallback_location: root_path, flash: { success: 'Comment deleted.'}
   end
 
   private
-  def comment_params
-    params.require(:comment).permit(:content, :event_id)
-  end
+    def comment_params
+      params.require(:comment).permit(:content, :event_id)
+    end
 
-  def correct_user
-    @comment = current_user.comments.find_by(id: params[:id])
-    redirect_to root_path if @comment.nil?
-  end
+    def correct_user
+      @comment = current_user.comments.find_by(id: params[:id])
+      redirect_to root_path if @comment.nil?
+    end
 end
