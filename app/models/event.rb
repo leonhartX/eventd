@@ -18,7 +18,7 @@ class Event < ApplicationRecord
   validates_datetime :hold_at, :on_or_after => :now
 
   def over_capacity?
-  	attendees.count >= capacity
+    attendees.count >= capacity
   end
 
   def available?
@@ -30,13 +30,13 @@ class Event < ApplicationRecord
   end
 
   def update_participant
-  	return if waiters.count == 0 || over_capacity?
-  	waiters.order(:updated_at).first.update_attend self, "attended"
+    return if waiters.count == 0 || over_capacity?
+    waiters.order(:updated_at).first.update_attend self, "attended"
   end
 
   class << self
-  	def participant_type
-  		[:attendees, :waiters, :absentees]
-  	end
+    def participant_type
+      [:attendees, :waiters, :absentees]
+    end
   end
 end

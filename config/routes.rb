@@ -1,8 +1,4 @@
 Rails.application.routes.draw do
-  get 'comments/create'
-
-  get 'comments/destroy'
-
   root 'events#index'
   devise_for :users, controllers: { :omniauth_callbacks => "oauth_callbacks" }
   resources :users, only: [:index, :show]
